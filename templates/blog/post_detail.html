@@ -1,0 +1,7 @@
+<!-- templates/blog/post_detail.html -->
+<h1>{{ post.title }}</h1>
+<small>Pubblicato il: {{ post.created_at }}</small>
+<hr>
+<p>{{ post.content }}</p>
+<hr>
+<a href="{% url 'post_list' %}">Torna alla lista dei post</a>
