@@ -1,5 +1,4 @@
-# pages/views.py
-from django.shortcuts import render # Cambiamo l'import
+<h1>Ciao da un Template!</h1>
+<p>Questa è la homepage.</p>
 
-def home_page_view(request):
-    return render(request, "home.html") # Usiamo render
+<a href="{% url 'about' %}">Vai alla pagina About</a>

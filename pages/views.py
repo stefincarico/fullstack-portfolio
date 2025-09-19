@@ -1,5 +1,8 @@
 # pages/views.py
-from django.http import HttpResponse
+from django.shortcuts import render # Cambiamo l'import
 
 def home_page_view(request):
-    return HttpResponse("<h1>Ciao Mondo! Questa è la homepage.</h1>")
+    return render(request, "home.html") # Usiamo render
+
+def about_page_view(request):
+    return render(request,"about.html")
