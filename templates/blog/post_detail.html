@@ -13,7 +13,7 @@
               Usiamo il filtro 'date' per formattare la data 
               in un formato più leggibile.
             -->
-            Pubblicato il {{ post.created_at|date:"d F Y, H:i" }}
+            Pubblicato il {{ post.created_at|date:"d F Y, H:i" }} <small>da {{ post.author }}</small>
         </p>
         
         <div class="post-content">

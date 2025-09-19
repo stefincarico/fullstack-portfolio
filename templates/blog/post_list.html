@@ -17,7 +17,7 @@
             </h3>
 
             <p class="post-meta">
-                Pubblicato il {{ post.created_at|date:"d F Y" }}
+                Pubblicato il {{ post.created_at|date:"d F Y" }} <small>da {{ post.author }}</small>
             </p>
             
             <div class="post-excerpt">
