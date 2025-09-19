@@ -1,29 +1,36 @@
-  <!DOCTYPE html>
-  <html lang="it">
-  <head>
-      <meta charset="UTF-8">
-      <title>Articoli del Blog</title>
-      <style>
-          body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-          article { border-bottom: 1px solid #eee; padding: 20px 0; }
-          h2 { margin-top: 0; }
-          small { color: #888; }
-      </style>
-  </head>
-  <body>
-      <h1>Il Mio Blog</h1>
-      <hr>
+<!-- templates/blog/post_list.html -->
 
-      {% for post in posts %}
-          <article>
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-              <small>
-                  Di {{ post.author.username }} | {{ post.created_at|date:"d F Y" }}
-              </small>
-              <p>{{ post.content|truncatewords:50|linebreaks }}</p>
-          </article>
-      {% empty %}
-          <p>Nessun articolo trovato.</p>
-      {% endfor %}
-  </body>
-  </html>
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <h2>Ultimi Articoli</h2>
+    <hr>
+
+
+    {% for post in posts %}
+        <article class="post-summary">
+            
+            <h3>
+
+                <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+            </h3>
+
+            <p class="post-meta">
+                Pubblicato il {{ post.created_at|date:"d F Y" }}
+            </p>
+            
+            <div class="post-excerpt">
+
+                {{ post.content|truncatechars:150|linebreaks }}
+            </div>
+
+            <a href="{% url 'post_detail' pk=post.pk %}" class="read-more">Leggi tutto...</a>
+
+        </article>
+    {% empty %}
+        <!-- Questo blocco viene mostrato se la lista 'posts' è vuota -->
+        <p>Non ci sono ancora articoli nel blog. Torna più tardi!</p>
+    {% endfor %}
+
+{% endblock content %}

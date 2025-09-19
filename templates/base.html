@@ -1,0 +1,33 @@
+<!-- templates/base.html -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Super Blog</title>
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- Il link nell'header riporta sempre alla lista dei post -->
+            <h1><a href="{% url 'post_list' %}">Il Mio Super Blog</a></h1>
+            <p>Un viaggio nello sviluppo con Django e Python.</p>
+        </header>
+
+        <main>
+            {% block content %}
+            {% endblock content %}
+        </main>
+
+        <footer>
+            <p>&copy; 2025 - Progetto Didattico Full Stack</p>
+        </footer>
+    </div>
+
+</body>
+</html>

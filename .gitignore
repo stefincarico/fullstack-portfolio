@@ -1,0 +1,95 @@
+# =========================
+# PYTHON / DJANGO
+# =========================
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# =========================
+# IDE / EDITOR
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# =========================
+# REACT / NODE.JS
+# =========================
+node_modules/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn/
+.pnpm/
+.next/
+out/
+.cache/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# =========================
+# DJANGO SECRET / ENV
+# =========================
+.env
+*.env
+
+# =========================
+# OS / ALTRO
+# =========================
+*.bak
+*.tmp
+*~
+*.orig
+
+# =========================
+# POSTGRESQL (se usi dump locali)
+# =========================
+*.dump
+*.sql
+
+# =========================
+# TEST / COVERAGE
+# =========================
+.coverage
+htmlcov/
+.nyc_output/
+coverage/
+
+# =========================
+# MACOS / LINUX / WINDOWS
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =========================
+# DOCKER (opzionale, se usi)
+# =========================
+.dockerenv
+docker-compose.override.yml

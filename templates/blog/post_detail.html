@@ -1,7 +1,35 @@
 <!-- templates/blog/post_detail.html -->
-<h1>{{ post.title }}</h1>
-<small>Pubblicato il: {{ post.created_at }}</small>
-<hr>
-<p>{{ post.content }}</p>
-<hr>
-<a href="{% url 'post_list' %}">Torna alla lista dei post</a>
+
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <article class="post-full">
+
+        <h2 class="post-title">{{ post.title }}</h2>
+        
+        <p class="post-meta">
+            <!-- 
+              Usiamo il filtro 'date' per formattare la data 
+              in un formato più leggibile.
+            -->
+            Pubblicato il {{ post.created_at|date:"d F Y, H:i" }}
+        </p>
+        
+        <div class="post-content">
+            <!-- 
+              Qui mostriamo il contenuto completo.
+              Il filtro 'linebreaks' è utile per rispettare 
+              gli "a capo" inseriti nell'Admin.
+            -->
+            {{ post.content|linebreaks }}
+        </div>
+
+    </article>
+
+    <hr>
+
+    <!-- Link per tornare alla pagina principale -->
+    <a href="{% url 'post_list' %}">&larr; Torna a tutti gli articoli</a>
+
+{% endblock content %}
