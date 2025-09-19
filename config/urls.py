@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('pages.urls')), # delega gli URL vuoti alla nostra app
+    path('pages/', include('pages.urls')), # Teniamo le pagine statiche
+    path('', include('blog.urls')), # La root ora punta al blog
 ]
