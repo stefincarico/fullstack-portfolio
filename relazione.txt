@@ -1,0 +1,79 @@
+RELAZIONE: RISOLUZIONE PROBLEMI DI AUTENTICAZIONE API IN DJANGO REST FRAMEWORK
+
+Progetto: Applicazione Blog Full-Stack con Django e Django REST Framework (DRF).
+
+Insegnante: [Nome dell'insegnante]
+Studente: Angelo Lubrano
+Data: 20/09/2025
+
+------------------------------------------------------------------------------------------------------------------------
+
+Problema Iniziale Rilevato
+--------------------------
+
+Durante lo sviluppo dell'API per la creazione di nuovi post (POST /api/v1/posts/), ho incontrato un errore critico
+che impediva a qualsiasi utente, anche se autenticato, di creare un nuovo articolo.
+
+L'errore restituito dal server era il seguente:
+ValueError: Cannot assign "<AnonymousUser>": "Post.author" must be a "User" instance.
+
+Questo indicava che, al momento di salvare il nuovo post nel database, il sistema tentava di assegnare un utente
+anonimo (AnonymousUser) come autore, violando il vincolo del modello Post che richiede un'istanza valida di User.
+
+
+Analisi e Processo di Risoluzione
+---------------------------------
+
+La risoluzione del problema ha richiesto un'analisi a più livelli della configurazione di Django e Django REST Framework.
+
+1. Configurazione del Serializer (api/serializers.py)
+
+Inizialmente, si è ipotizzato che il PostSerializer non gestisse correttamente il campo 'author'. Il campo non era né
+esplicitamente richiesto né impostato come di sola lettura.
+
+Soluzione Adottata: Ho modificato il serializer per includere 'author' nei 'fields' e l'ho contestualmente aggiunto
+ai 'read_only_fields'. Questo assicura che l'autore venga incluso nella rappresentazione JSON dell'oggetto Post ma non
+sia richiesto come input durante la creazione, poiché viene iniettato a livello di vista tramite 'perform_create'.
+
+2. Abilitazione dell'Autenticazione nell'API Navigabile (config/urls.py)
+
+Dopo la prima modifica, l'errore persisteva. Un'analisi più approfondita ha rivelato che non era possibile effettuare
+il login nell'interfaccia API navigabile di DRF, in quanto mancava il relativo pulsante.
+
+Soluzione Adottata: Ho aggiunto gli URL di autenticazione di DRF al file 'urlpatterns' principale, includendo il path
+'path('api-auth/', include('rest_framework.urls'))'. Questa modifica ha correttamente abilitato l'interfaccia di
+login, un passo fondamentale per i test autenticati via browser.
+
+3. Configurazione Globale delle Classi di Autenticazione (config/settings.py)
+
+Nonostante la possibilità di effettuare il login, il sistema continuava a trattare l'utente come anonimo. L'indagine
+si è quindi spostata sulla configurazione centrale di DRF.
+
+Causa Radice: Il dizionario 'REST_FRAMEWORK' nel file 'settings.py' specificava 'JWTAuthentication' come unica classe
+di autenticazione. Questo istruiva DRF a ignorare qualsiasi altro metodo, inclusa l'autenticazione basata su sessione
+('SessionAuthentication') che viene utilizzata dopo il login tramite browser.
+
+Soluzione Finale: Ho aggiornato la lista 'DEFAULT_AUTHENTICATION_CLASSES' per includere sia 'SessionAuthentication'
+che 'JWTAuthentication'.
+
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.SessionAuthentication', # Aggiunta
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
+    }
+
+L'ordine è importante: DRF ora tenta prima di autenticare tramite la sessione esistente e, in caso di fallimento,
+cerca un token JWT nell'header della richiesta.
+
+
+Conclusioni
+-----------
+
+Il problema era dovuto a una configurazione restrittiva dell'autenticazione in Django REST Framework, che impediva il
+corretto funzionamento del meccanismo di sessione. La risoluzione ha richiesto un intervento mirato su tre file chiave
+del progetto, dimostrando l'importanza di una corretta configurazione coordinata tra serializer, URL e impostazioni
+globali del framework.
+
+Il sistema ora è robusto e flessibile, in grado di gestire correttamente l'autenticazione sia per i test tramite
+l'API navigabile (sessione) sia per le future integrazioni con client esterni (token JWT).
