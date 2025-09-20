@@ -5,6 +5,7 @@ from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from .models import Post
 from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def post_list_view(request):
     posts = Post.objects.select_related('author').all().order_by('-created_at') # Prendiamo tutti i post, i più recenti prima
@@ -13,6 +14,7 @@ def post_list_view(request):
     }
     return render(request, "blog/post_list.html", context)
 
+
 def post_detail_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
     context = {
@@ -20,6 +22,7 @@ def post_detail_view(request, pk):
     }
     return render(request, "blog/post_detail.html", context)
 
+@login_required
 def post_create_view(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -41,6 +44,7 @@ def post_create_view(request):
     }
     return render(request, 'blog/post_form.html', context)
     
+@login_required
 def post_update_view(request, pk):
     # 1. Recupera l'oggetto o restituisci un errore 404
     #    Usiamo get_object_or_404 per gestire in modo pulito il caso in cui
@@ -81,7 +85,9 @@ def post_update_view(request, pk):
     }
     return render(request, 'blog/post_form.html', context)
 
-class PostDeleteView(DeleteView):
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
     success_url = reverse_lazy('blog:post_list')

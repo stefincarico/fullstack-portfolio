@@ -13,14 +13,22 @@
 <body>
 
     <div class="container">
-        <header>
-            <!-- Il link nell'header riporta sempre alla lista dei post -->
-            <h1><a href="{% url 'blog:post_list' %}">Il Mio Super Blog</a></h1>
-            <p>Un viaggio nello sviluppo con Django e Python.</p>
-                <nav>
+    <header>
+        <h1><a href="{% url 'blog:post_list' %}">Il Mio Super Blog</a></h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <p>Ciao, {{ user.username }}!</p>
                 <a href="{% url 'blog:post_create' %}">Nuovo Post</a>
-                </nav>
-        </header>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> | 
+                <a href="{% url 'signup' %}">Registrati</a>
+            {% endif %}
+        </nav>
+    </header>
 
         <main>
             {% block content %}
