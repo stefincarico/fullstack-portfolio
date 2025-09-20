@@ -27,6 +27,11 @@
 
     </article>
     <hr>
+      <hr>
+    {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'blog:post_update' pk=post.pk %}" class="btn btn-primary">Modifica Post</a>
+        {# Potremmo aggiungere anche il link per l'eliminazione qui in futuro #}
+    {% endif %}
     <!-- Sezione Commenti -->
     <section class="comments-section">
         <h3>Commenti ({{ post.comments.count }})</h3>
@@ -49,6 +54,6 @@
     <hr>
 
     <!-- Link per tornare alla pagina principale -->
-    <a href="{% url 'post_list' %}">&larr; Torna a tutti gli articoli</a>
+    <a href="{% url 'blog:post_list' %}">&larr; Torna a tutti gli articoli</a>
 
 {% endblock content %}

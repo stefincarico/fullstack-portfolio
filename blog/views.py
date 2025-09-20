@@ -29,13 +29,52 @@ def post_create_view(request):
             new_post.save()
             # I ManyToMany si salvano solo dopo che l'oggetto principale esiste
             form.save_m2m() 
-            return redirect('post_detail', pk=new_post.pk)
+            return redirect('blog:post_detail', pk=new_post.pk)
     else: # Richiesta GET
         form = PostForm()
     
     context = {
         'form': form,
+        'title': 'Crea Post' # Titolo dinamico
     }
     return render(request, 'blog/post_form.html', context)
     
-    
+def post_update_view(request, pk):
+    # 1. Recupera l'oggetto o restituisci un errore 404
+    #    Usiamo get_object_or_404 per gestire in modo pulito il caso in cui
+    #    un post con quella 'pk' (Primary Key) non esista. È una best practice.
+    post = get_object_or_404(Post, pk=pk)
+
+    # Aggiungiamo un controllo di sicurezza: solo l'autore può modificare il post.
+    if request.user != post.author:
+        # Se l'utente non è l'autore, gli neghiamo l'accesso.
+        # Potremmo mostrare una pagina di errore "403 Forbidden", ma per ora
+        # un semplice redirect alla home è sufficiente.
+        return redirect('home')
+
+    # 2. Logica per la richiesta POST (quando l'utente invia il form)
+    if request.method == 'POST':
+        # La differenza chiave è qui: passiamo 'instance=post'.
+        # Diciamo a Django di popolare il form con i dati inviati (request.POST)
+        # ma di applicare le modifiche all'oggetto 'post' esistente.
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            # Reindirizziamo alla pagina di dettaglio del post appena modificato.
+            return redirect('blog:post_detail', pk=post.pk)
+    # 3. Logica per la richiesta GET (quando l'utente visita la pagina)
+    else:
+        # Anche qui passiamo 'instance=post'.
+        # Questo dice a Django di creare un form pre-compilato
+        # con i dati attuali dell'oggetto 'post'.
+        form = PostForm(instance=post)
+
+    # 4. Render del template
+    #    Passiamo il form e l'oggetto post al template.
+    #    Aggiungiamo un titolo per rendere il template riutilizzabile.
+    context = {
+        'form': form,
+        'post': post,
+        'title': 'Modifica Post' # Titolo dinamico
+    }
+    return render(request, 'blog/post_form.html', context)
