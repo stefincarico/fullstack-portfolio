@@ -17,6 +17,9 @@
             <!-- Il link nell'header riporta sempre alla lista dei post -->
             <h1><a href="{% url 'post_list' %}">Il Mio Super Blog</a></h1>
             <p>Un viaggio nello sviluppo con Django e Python.</p>
+                <nav>
+                <a href="{% url 'post_create' %}">Nuovo Post</a>
+                </nav>
         </header>
 
         <main>

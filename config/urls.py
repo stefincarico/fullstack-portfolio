@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from blog.views import post_create_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('pages.urls')), # Teniamo le pagine statiche
     path('', include('blog.urls')), # La root ora punta al blog
+    path('post/new/', post_create_view, name='post_create'),
 ]
