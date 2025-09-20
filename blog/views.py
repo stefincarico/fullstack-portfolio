@@ -1,6 +1,8 @@
 # blog/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
+from django.views.generic import DeleteView
+from django.urls import reverse_lazy
 from .models import Post
 from django.contrib.auth.decorators import login_required 
 
@@ -78,3 +80,9 @@ def post_update_view(request, pk):
         'title': 'Modifica Post' # Titolo dinamico
     }
     return render(request, 'blog/post_form.html', context)
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    success_url = reverse_lazy('blog:post_list')
+

@@ -1,0 +1,14 @@
+<!-- templates/blog/post_confirm_delete.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <h2>Sei sicuro?</h2>
+        <p>Stai per cancellare definitivamente il post: <strong>"{{ post.title }}"</strong>.</p>
+        <p>Questa azione non può essere annullata.</p>
+        
+        <button type="submit" class="btn-danger">Sì, Cancella</button>
+        <a href="{% url 'blog:post_detail' pk=post.pk %}" class="btn">Annulla</a>
+    </form>
+{% endblock content %}

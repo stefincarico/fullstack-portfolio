@@ -30,7 +30,7 @@
       <hr>
     {% if user.is_authenticated and user == post.author %}
         <a href="{% url 'blog:post_update' pk=post.pk %}" class="btn btn-primary">Modifica Post</a>
-        {# Potremmo aggiungere anche il link per l'eliminazione qui in futuro #}
+        <a href="{% url 'blog:post_delete' pk=post.pk %}" class="btn btn-danger">Cancella Post</a>
     {% endif %}
     <!-- Sezione Commenti -->
     <section class="comments-section">
