@@ -13,7 +13,7 @@
         </p>
         
         <div class="post-content fs-5 text-break">
-            {{ post.content|linebreaks }}
+            {{ post.content|safe }}
         </div>
 
         {% if post.tags.all %}

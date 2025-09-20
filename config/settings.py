@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
 
 
 # Application definition
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_summernote',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -118,14 +120,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'it'              # 🇮🇹 Lingua italiana (codice lingua ISO)
+TIME_ZONE = 'Europe/Rome'         # 🕒 Fuso orario italiano (CET/CEST)
+USE_I18N = True                   # ✅ Abilita internazionalizzazione (traduzioni)
+USE_L10N = True                   # ✅ Abilita localizzazione (formati numeri, date, ecc.) — DEPRECATO in Django 5.0+, ma ancora utile per chiarezza
+USE_TZ = True                     # ✅ Usa timezone-aware datetimes (consigliato)
 
-TIME_ZONE = 'UTC'
+# ✅ FORMATI DI DATA E ORA PREDEFINITI PER L'ITALIA
+DATE_FORMAT = 'd/m/Y'                     # 25/04/2025
+TIME_FORMAT = 'H:i'                       # 14:30
+DATETIME_FORMAT = 'd/m/Y H:i'             # 25/04/2025 14:30
+DATE_INPUT_FORMATS = ['%d/%m/%Y', '%Y-%m-%d']  # Accetta input in formato italiano o ISO
+TIME_INPUT_FORMATS = ['%H:%M', '%H:%M:%S']
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M', '%Y-%m-%d %H:%M:%S']
 
-USE_I18N = True
-
-USE_TZ = True
-
+# ✅ WEEK START (opzionale)
+FIRST_DAY_OF_WEEK = 1  # Lunedì (standard in Italia)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

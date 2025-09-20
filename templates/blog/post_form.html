@@ -11,6 +11,7 @@
                 <h2 class="card-title mb-4">{{ title }}</h2>
                 <form method="post">
                     {% csrf_token %}
+                    {{ form.media }}
                     {{ form|crispy }}
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary">Salva Modifiche</button>
