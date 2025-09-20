@@ -1,17 +1,11 @@
-from rest_framework.response import Response
-from rest_framework import status, viewsets
 from django.shortcuts import get_object_or_404
-from blog.models import Post, Tag
-from .serializers import PostSerializer, TagSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly 
-from .permissions import IsAuthorOrReadOnly
-
-# api/views.py
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from blog.models import Post
-from .serializers import PostSerializer
+from rest_framework.response import Response
+
+from blog.models import Post, Tag
 from .permissions import IsAuthorOrReadOnly
+from .serializers import PostSerializer, TagSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -30,3 +24,4 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     search_fields = ['name']
+

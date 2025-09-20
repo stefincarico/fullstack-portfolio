@@ -32,7 +32,7 @@ class TestPostViewSet:
 
     def test_create_post_unauthenticated(self):
         response = self.client.post('/api/v1/posts/', {'title': 'Nuovo Titolo', 'content': '...'})
-        assert response.status_code == 401 # Unauthorized o 403 Forbidden a seconda della config
+        assert response.status_code == 403 # Forbidden
 
     def test_create_post_authenticated(self):
         # Autentichiamo il client per questa richiesta
@@ -74,5 +74,23 @@ class TestPostViewSet:
         response = self.client.delete(f'/api/v1/posts/{self.post1.pk}/')
         assert response.status_code == 403 # Forbidden!
         assert Post.objects.count() == 1 # Il post non deve essere stato cancellato
+
+    def test_search_posts(self):
+        """
+        Verifica che la ricerca per titolo e contenuto funzioni correttamente.
+        """
+        # Arrange: Crea post specifici per il test di ricerca.
+        # Il post 'Post di User 1' esiste già dal setup.
+        Post.objects.create(title='Un titolo che parla di Python', content='...', author=self.user1)
+        Post.objects.create(title='Un titolo su Django', content='...', author=self.user1)
+        
+        # Act: Esegui la ricerca per la parola "Python"
+        response = self.client.get('/api/v1/posts/?search=Python')
+        
+        # Assert
+        assert response.status_code == 200
+        # Ci sono 3 post in totale nel DB, ma solo 1 deve corrispondere alla ricerca
+        assert len(response.data) == 1
+        assert response.data[0]['title'] == 'Un titolo che parla di Python'
 
 
