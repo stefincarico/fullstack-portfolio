@@ -1,12 +1,39 @@
 <!-- templates/blog/post_form.html -->
-  {% extends "base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
-  {% block content %}
-    <!-- Usiamo la variabile 'title' che passiamo dal context della view -->
-    <h2>{{ title }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Pubblica</button>
-    </form>
-  {% endblock content %}
+
+{% block content %}
+<div class="row">
+    <!-- Colonna Principale: Il Form -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">{{ title }}</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+                        <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Annulla</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Colonna Laterale: Consigli -->
+    <div class="col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">Consigli per l'Autore</h5>
+                <p class="card-text small text-muted">
+                    Usa un titolo chiaro e conciso. Rendi il contenuto interessante e facile da leggere.
+                </p>
+                <p class="card-text small text-muted">
+                    I tag aiutano gli altri a trovare il tuo articolo. Scegline 2 o 3 pertinenti.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
