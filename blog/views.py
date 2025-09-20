@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Post # Importiamo il modello Post
 
 def post_list_view(request):
-    posts = Post.objects.all().order_by('-created_at') # Prendiamo tutti i post, i più recenti prima
+    posts = Post.objects.select_related('author').all().order_by('-created_at') # Prendiamo tutti i post, i più recenti prima
     context = {
         'posts': posts,
     }
