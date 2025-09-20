@@ -1,27 +1,22 @@
-# api/views.py
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from django.shortcuts import get_object_or_404
-from blog.models import Post
-from .serializers import PostSerializer
+from blog.models import Post, Tag
+from .serializers import PostSerializer, TagSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly 
+from .permissions import IsAuthorOrReadOnly
 
-class PostListApiView(APIView):
-    def get(self, request, *args, **kwargs):
-        '''
-        Restituisce la lista di tutti i post.
-        '''
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all().order_by('-created_at')
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthorOrReadOnly] 
 
-class PostDetailApiView(APIView):
-    def get(self, request, pk, *args, **kwargs):
-        '''
-        Restituisce i dettagli di un singolo post.
-        '''
-        # 1. Recupera il singolo oggetto usando la pk e get_object_or_404
-        post = get_object_or_404(Post, pk=pk)
-        # 2. Serializza il singolo oggetto (NON serve many=True)
-        serializer = PostSerializer(post)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+class TagViewSet(viewsets.ModelViewSet):
+    """
+    Un ViewSet per visualizzare e modificare i tag.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer

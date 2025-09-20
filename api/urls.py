@@ -1,8 +1,14 @@
 # api/urls.py
-from django.urls import path
-from .views import PostListApiView, PostDetailApiView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import PostViewSet, TagViewSet
 
+# Creiamo un router e registriamo i nostri ViewSet
+router = DefaultRouter()
+router.register(r'posts', PostViewSet, basename='post') # Registriamo il PostViewSet
+router.register(r'tags', TagViewSet, basename='tag')
+
+# Gli URL dell'API sono una combinazione di quelli manuali e quelli generati dal router
 urlpatterns = [
-    path('posts/', PostListApiView.as_view(), name='post-list'),
-    path('posts/<int:pk>/', PostDetailApiView.as_view(), name='post-detail'),
+    path('', include(router.urls)), # Includiamo gli URL generati dal router
 ]
