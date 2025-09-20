@@ -87,8 +87,15 @@ def post_update_view(request, pk):
 
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
     success_url = reverse_lazy('blog:post_list')
+
+    def test_func(self):
+        """Questo test viene eseguito da UserPassesTestMixin."""
+        post = self.get_object() # Recupera l'oggetto post che si sta cercando di cancellare
+        return self.request.user == post.author # Restituisce True solo se l'utente è l'autore
 
