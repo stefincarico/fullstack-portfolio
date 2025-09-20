@@ -1,12 +1,12 @@
 <!-- templates/blog/post_form.html -->
   {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
   {% block content %}
     <!-- Usiamo la variabile 'title' che passiamo dal context della view -->
     <h2>{{ title }}</h2>
     <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Salva</button>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Pubblica</button>
     </form>
   {% endblock content %}

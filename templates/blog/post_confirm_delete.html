@@ -2,13 +2,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <h2>Sei sicuro?</h2>
-        <p>Stai per cancellare definitivamente il post: <strong>"{{ post.title }}"</strong>.</p>
-        <p>Questa azione non può essere annullata.</p>
-        
-        <button type="submit" class="btn-danger">Sì, Cancella</button>
-        <a href="{% url 'blog:post_detail' pk=post.pk %}" class="btn">Annulla</a>
-    </form>
-{% endblock content %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Conferma Cancellazione</h2>
+            <p>Sei sicuro di voler cancellare il post "{{ object.title }}"?</p>
+            <p class="text-danger">Attenzione: questa azione è irreversibile.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sì, Cancella</button>
+                <a href="{% url 'blog:post_detail' pk=object.pk %}" class="btn btn-secondary">Annulla</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
