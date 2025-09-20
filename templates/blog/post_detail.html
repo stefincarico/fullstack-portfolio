@@ -24,6 +24,14 @@
             -->
             {{ post.content|linebreaks }}
         </div>
+        <div class="tags">
+            <strong>Tags:</strong>
+            {% for tag in post.tags.all %}
+                <span class="tag">{{ tag.name }}</span>
+            {% empty %}
+                Nessun tag.
+            {% endfor %}
+        </div>
 
     </article>
 

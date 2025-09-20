@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Tag
+from .models import Post, Tag, Comment
 
 # Register your models here.
 
@@ -18,3 +18,4 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ('name',)
     list_per_page = 15
 
+admin.site.register(Comment) 
