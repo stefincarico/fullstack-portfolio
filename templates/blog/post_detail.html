@@ -9,19 +9,11 @@
         <h2 class="post-title">{{ post.title }}</h2>
         
         <p class="post-meta">
-            <!-- 
-              Usiamo il filtro 'date' per formattare la data 
-              in un formato più leggibile.
-            -->
             Pubblicato il {{ post.created_at|date:"d F Y, H:i" }} <small>da {{ post.author }}</small>
         </p>
         
         <div class="post-content">
-            <!-- 
-              Qui mostriamo il contenuto completo.
-              Il filtro 'linebreaks' è utile per rispettare 
-              gli "a capo" inseriti nell'Admin.
-            -->
+
             {{ post.content|linebreaks }}
         </div>
         <div class="tags">
@@ -34,6 +26,25 @@
         </div>
 
     </article>
+    <hr>
+    <!-- Sezione Commenti -->
+    <section class="comments-section">
+        <h3>Commenti ({{ post.comments.count }})</h3>
+        
+        {% for comment in post.comments.all %}
+            <div class="comment" style="margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                <p class="comment-meta">
+                    <strong>{{ comment.author }}</strong>
+                    <small class="text-muted">ha commentato il {{ comment.created_at|date:"d F Y, H:i" }}</small>
+                </p>
+                <div class="comment-text">
+                    {{ comment.text|linebreaks }}
+                </div>
+            </div>
+        {% empty %}
+            <p style="margin-top: 1rem;">Non ci sono ancora commenti per questo articolo.</p>
+        {% endfor %}
+    </section>
 
     <hr>
 

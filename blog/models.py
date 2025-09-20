@@ -17,6 +17,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    filter_horizontal = ('tags',)
 
     def __str__(self):
         return self.title
@@ -30,5 +31,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Commento di {self.author} su "{self.post.title}"'
-
 
