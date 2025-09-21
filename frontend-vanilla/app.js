@@ -31,6 +31,8 @@ const fetchTasks = async () => {
 // 4. Eseguiamo la funzione quando lo script viene caricato
 fetchTasks();
 
+// ... (codice precedente) ...
+
 // 5. Selezioniamo il form e l'input
 const formNuovoTask = document.querySelector('#form-nuovo-task');
 const inputTitoloTask = document.querySelector('#input-titolo-task');
@@ -47,6 +49,8 @@ const handleFormSubmit = async (event) => {
         content: 'Contenuto di default' // Il nostro modello richiede un contenuto
     };
 
+    const authToken ='QUI-IL-TOKEN'
+
     try {
         // Per inviare dati, dobbiamo autenticarci! Per ora, bypasseremo
         // temporaneamente i permessi per fare il test.
@@ -55,12 +59,16 @@ const handleFormSubmit = async (event) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // Qui mancherebbe l'header di autenticazione!
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify(nuovoTask),
         });
 
-        if (!response.ok) throw new Error('Errore nella creazione');
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Dettagli errore:', errorData);
+            throw new Error('Errore nella creazione');
+        }
         
         // Se la creazione va a buon fine, ricarichiamo la lista
         fetchTasks();

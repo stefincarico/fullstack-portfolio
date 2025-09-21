@@ -10,7 +10,7 @@ from .serializers import PostSerializer, TagSerializer
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
-    permission_classes = [AllowAny] #rimettere [IsAuthorOrReadOnly] 
+    permission_classes = [IsAuthorOrReadOnly]
     filterset_fields = ['author', 'tags']
     search_fields = ['title', 'content']
 
