@@ -36,7 +36,10 @@ const TaskList = () => {
     return (
         <ul>
             {tasks.map(task => (
-                <li key={task.id}>{task.title}</li>
+            <li key={task.id}>
+                {/* Sostituisci il testo con un componente Link */}
+                <Link to={`/tasks/${task.id}`}>{task.title}</Link>
+            </li>
             ))}
         </ul>
     );
