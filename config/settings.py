@@ -161,7 +161,8 @@ LOGOUT_REDIRECT_URL = 'blog:post_list'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        # Per una SPA disaccoppiata, JWT è il metodo primario.
+        # Rimuoviamo SessionAuthentication per evitare controlli CSRF non necessari.
         'rest_framework_simplejwt.authentication.JWTAuthentication',          
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',

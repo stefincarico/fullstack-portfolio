@@ -37,6 +37,8 @@ const TaskDetail = () => {
                 })}
             </p>
             <p><small>Autore: {task.author_username}</small></p>
+            <Link to={`/tasks/${task.id}/edit`}>Modifica Task</Link>
+            {' | '}
             <Link to="/">Torna alla lista</Link>
         </div>
     );
