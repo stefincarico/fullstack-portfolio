@@ -51,13 +51,15 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_summernote',
     'django_filters',
-    'drf_spectacular'
+    'drf_spectacular',
+    'corsheaders',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -168,3 +170,5 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
     ]
 }
+
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:5500", "null"]

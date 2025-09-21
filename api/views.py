@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny
 from rest_framework.response import Response
 
 from blog.models import Post, Tag
@@ -10,7 +10,7 @@ from .serializers import PostSerializer, TagSerializer
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
-    permission_classes = [IsAuthorOrReadOnly] 
+    permission_classes = [AllowAny] #rimettere [IsAuthorOrReadOnly] 
     filterset_fields = ['author', 'tags']
     search_fields = ['title', 'content']
 
