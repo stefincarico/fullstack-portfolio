@@ -30,6 +30,12 @@ const TaskDetail = () => {
         <div>
             <h2>{task.title}</h2>
             <p>{task.content}</p>
+              <p>
+                {new Date(task.created_at).toLocaleString('it-IT', {
+                dateStyle: 'full',
+                timeStyle: 'short',
+                })}
+            </p>
             <p><small>Autore: {task.author_username}</small></p>
             <Link to="/">Torna alla lista</Link>
         </div>

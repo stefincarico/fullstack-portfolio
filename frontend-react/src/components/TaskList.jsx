@@ -1,5 +1,6 @@
 // src/components/TaskList.jsx
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // <-- IMPORTA IL COMPONENTE LINK
 
 const TaskList = () => {
     // 1. Stato per memorizzare i task. Inizializziamo con un array vuoto.
